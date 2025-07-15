@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleManntra Digital | Edit and Format Documents Online</title>
+    <meta name="description" content="Free online document editor with formatting tools. Create, edit and save documents in your browser without registration.">
+    <meta name="keywords" content="online document editor, text editor, word processor, format documents, save documents">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_AD_CLIENT_ID" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #06d6a0;
+            --dark: #14213d;
+            --light: #f8f9fa;
+            --gray: #e9ecef;
+            --light-gray: #f5f7fa;
+            --text: #333;
+            --text-light: #666;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1.2rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                grid-template-columns: 1fr 300px;
+            }
+        }
+
+        .main-content {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.8rem;
+        }
+
+        .card h2 {
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--gray);
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--light);
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .toolbar-group {
+            display: flex;
+            border-right: 1px solid var(--gray);
+            padding-right: 1rem;
+            margin-right: 1rem;
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+            margin-right: 0;
+        }
+
+        .toolbar-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px solid var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .toolbar-btn:hover, .toolbar-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .toolbar-select {
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray);
+            background: white;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .editor-container {
+            min-height: 500px;
+            padding: 2rem;
+            outline: none;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .editor-container:focus {
+            outline: none;
+        }
+
+        .editor-container h2 {
+            margin: 1.5rem 0 1rem;
+            color: var(--dark);
+        }
+
+        .editor-container p {
+            margin-bottom: 1rem;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--light);
+            border-top: 1px solid var(--gray);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #6208a0;
+        }
+
+        .btn-lg {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .ad-container {
+            background: #f8f9fa;
+            border: 1px dashed #ccc;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .ad-label {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            padding: 0 1.5rem;
+            max-width: 1400px;
+            margin: 3rem auto 0;
+        }
+
+        .feature {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem 1.5rem;
+            color: #666;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .document-title {
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--gray);
+            background: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .title-input {
+            flex: 1;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border-radius: var(--radius);
+        }
+
+        .title-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .format-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        .file-stats {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1rem 2rem;
+            background: var(--light);
+            border-top: 1px solid var(--gray);
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .editor-actions {
+                flex-direction: column;
+            }
+            
+            .toolbar-group {
+                border-right: none;
+                padding-right: 0;
+                margin-right: 0;
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 0.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 1px solid var(--gray);
+            }
+            
+            .toolbar-group:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+            
+            .toolbar {
+                justify-content: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-alt"></i>
+                <span>StyleManntra Digital</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>Edit & Format Documents Online</h1>
+        <p>Create, edit and save beautiful documents with our powerful online editor. No installation or registration required.</p>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="document-title">
+                <input type="text" class="title-input" id="doc-title" placeholder="Document Title" value="Untitled Document">
+            </div>
+            
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <select class="toolbar-select" id="heading-select">
+                        <option value="p">Paragraph</option>
+                        <option value="h1">Heading 1</option>
+                        <option value="h2">Heading 2</option>
+                        <option value="h3">Heading 3</option>
+                    </select>
+                    
+                    <button class="toolbar-btn" id="bold-btn" title="Bold">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button class="toolbar-btn" id="italic-btn" title="Italic">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button class="toolbar-btn" id="underline-btn" title="Underline">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                </div>
+                
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="align-left-btn" title="Align Left">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                    <button class="toolbar-btn" id="align-center-btn" title="Align Center">
+                        <i class="fas fa-align-center"></i>
+                    </button>
+                    <button class="toolbar-btn" id="align-right-btn" title="Align Right">
+                        <i class="fas fa-align-right"></i>
+                    </button>
+                    <button class="toolbar-btn" id="align-justify-btn" title="Align Justify">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+                </div>
+                
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="list-ul-btn" title="Bullet List">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <button class="toolbar-btn" id="list-ol-btn" title="Numbered List">
+                        <i class="fas fa-list-ol"></i>
+                    </button>
+                    <button class="toolbar-btn" id="outdent-btn" title="Decrease Indent">
+                        <i class="fas fa-outdent"></i>
+                    </button>
+                    <button class="toolbar-btn" id="indent-btn" title="Increase Indent">
+                        <i class="fas fa-indent"></i>
+                    </button>
+                </div>
+                
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="link-btn" title="Insert Link">
+                        <i class="fas fa-link"></i>
+                    </button>
+                    <button class="toolbar-btn" id="image-btn" title="Insert Image">
+                        <i class="fas fa-image"></i>
+                    </button>
+                    <button class="toolbar-btn" id="table-btn" title="Insert Table">
+                        <i class="fas fa-table"></i>
+                    </button>
+                </div>
+                
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="undo-btn" title="Undo">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="toolbar-btn" id="redo-btn" title="Redo">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                    <button class="toolbar-btn" id="clear-btn" title="Clear Formatting">
+                        <i class="fas fa-eraser"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="editor-container" id="editor" contenteditable="true">
+                <h2>Getting Started</h2>
+                <p>Welcome to DocEditor Pro! This is a fully-featured online document editor that runs right in your browser.</p>
+                
+                <h3>Features</h3>
+                <ul>
+                    <li>Format text with various styles (bold, italic, underline)</li>
+                    <li>Create headings and subheadings</li>
+                    <li>Create bulleted and numbered lists</li>
+                    <li>Adjust text alignment</li>
+                    <li>Insert images and links</li>
+                    <li>Save your documents in multiple formats</li>
+                </ul>
+                
+                <p>Simply start typing to create your document. Use the toolbar above to format your content.</p>
+                
+                <h3>Try It Out</h3>
+                <p>Select some text and try applying different formatting options. You can create professional-looking documents with just a few clicks.</p>
+                
+                <p>When you're done, save your document using one of the save options below.</p>
+            </div>
+            
+            <div class="file-stats">
+                <div>Words: <span id="word-count">85</span></div>
+                <div>Characters: <span id="char-count">545</span></div>
+                <div>Format: HTML</div>
+            </div>
+            
+            <div class="editor-actions">
+                <button class="btn btn-lg" id="save-btn">
+                    <i class="fas fa-save"></i> Save Document
+                </button>
+                <button class="btn btn-outline btn-lg" id="export-pdf-btn">
+                    <i class="fas fa-file-pdf"></i> Export as PDF
+                </button>
+                <button class="btn btn-secondary btn-lg" id="export-doc-btn">
+                    <i class="fas fa-file-word"></i> Export as DOC
+                </button>
+                <button class="btn btn-outline" id="new-doc-btn">
+                    <i class="fas fa-file"></i> New Document
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="card">
+                <h2>Advertisement</h2>
+                <div class="ad-container">
+                    <div>
+                        <div style="font-size: 3rem; color: #4361ee; margin-bottom: 1rem;">
+                            <i class="fas fa-ad"></i>
+                        </div>
+                        <p>Advertisement Space</p>
+                        <p class="ad-label">AdSense 300x250</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>How It Works</h2>
+                <ul style="list-style: none; padding-left: 1rem;">
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+                        <span style="background: var(--primary); color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.8rem; flex-shrink: 0;">1</span>
+                        <span>Start typing or paste your content</span>
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+                        <span style="background: var(--primary); color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.8rem; flex-shrink: 0;">2</span>
+                        <span>Format your document with the toolbar</span>
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+                        <span style="background: var(--primary); color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.8rem; flex-shrink: 0;">3</span>
+                        <span>Save or export your document</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h2>Recent Documents</h2>
+                <ul style="list-style: none; padding-left: 1rem;">
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+                        <i class="fas fa-file-alt" style="color: var(--primary); margin-right: 0.8rem; margin-top: 0.2rem;"></i>
+                        <span>Project Proposal</span>
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+                        <i class="fas fa-file-alt" style="color: var(--primary); margin-right: 0.8rem; margin-top: 0.2rem;"></i>
+                        <span>Meeting Notes</span>
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+                        <i class="fas fa-file-alt" style="color: var(--primary); margin-right: 0.8rem; margin-top: 0.2rem;"></i>
+                        <span>Blog Post Draft</span>
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start;">
+                        <i class="fas fa-file-alt" style="color: var(--primary); margin-right: 0.8rem; margin-top: 0.2rem;"></i>
+                        <span>Resume Template</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature">
+            <i class="fas fa-lock"></i>
+            <h3>Secure & Private</h3>
+            <p>Your documents never leave your browser. No server uploads required.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-rocket"></i>
+            <h3>Fast Processing</h3>
+            <p>Real-time editing with no lag. Work without interruptions.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Fully Responsive</h3>
+            <p>Works perfectly on desktop, tablet, and mobile devices.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-sync-alt"></i>
+            <h3>Multi-Format Export</h3>
+            <p>Save as HTML, PDF, DOC, or plain text with one click.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+            <a href="#">FAQ</a>
+        </div>
+        <p>&copy; 2025 StyleManntra Digital. All rights reserved.</p>
+    </footer>
+
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        Document saved successfully!
+    </div>
+
+    <script>
+        // DOM Elements
+        const editor = document.getElementById('editor');
+        const docTitle = document.getElementById('doc-title');
+        const toast = document.getElementById('toast');
+        const wordCount = document.getElementById('word-count');
+        const charCount = document.getElementById('char-count');
+        
+        // Toolbar buttons
+        const boldBtn = document.getElementById('bold-btn');
+        const italicBtn = document.getElementById('italic-btn');
+        const underlineBtn = document.getElementById('underline-btn');
+        const alignLeftBtn = document.getElementById('align-left-btn');
+        const alignCenterBtn = document.getElementById('align-center-btn');
+        const alignRightBtn = document.getElementById('align-right-btn');
+        const alignJustifyBtn = document.getElementById('align-justify-btn');
+        const listUlBtn = document.getElementById('list-ul-btn');
+        const listOlBtn = document.getElementById('list-ol-btn');
+        const outdentBtn = document.getElementById('outdent-btn');
+        const indentBtn = document.getElementById('indent-btn');
+        const linkBtn = document.getElementById('link-btn');
+        const imageBtn = document.getElementById('image-btn');
+        const tableBtn = document.getElementById('table-btn');
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const headingSelect = document.getElementById('heading-select');
+        
+        // Action buttons
+        const saveBtn = document.getElementById('save-btn');
+        const exportPdfBtn = document.getElementById('export-pdf-btn');
+        const exportDocBtn = document.getElementById('export-doc-btn');
+        const newDocBtn = document.getElementById('new-doc-btn');
+        
+        // Formatting commands
+        function formatDoc(command, value = null) {
+            document.execCommand(command, false, value);
+            updateStats();
+            editor.focus();
+        }
+        
+        // Update word and character count
+        function updateStats() {
+            const text = editor.innerText || "";
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            wordCount.textContent = words;
+            charCount.textContent = text.length;
+        }
+        
+        // Show toast message
+        function showToast(message) {
+            toast.querySelector('i').className = 'fas fa-check-circle';
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Save document as HTML
+        function saveDocument() {
+            const content = editor.innerHTML;
+            const title = docTitle.value || "Untitled Document";
+            const blob = new Blob([`<!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>${title}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 2rem; }
+                        h1, h2, h3 { color: #2c3e50; }
+                        ul, ol { margin-left: 1.5rem; }
+                        img { max-width: 100%; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${title}</h1>
+                    ${content}
+                </body>
+                </html>`], { type: 'text/html' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${title.replace(/\s+/g, '_')}.html`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast("Document saved as HTML");
+        }
+        
+        // Initialize
+        function init() {
+            // Add event listeners to toolbar buttons
+            boldBtn.addEventListener('click', () => formatDoc('bold'));
+            italicBtn.addEventListener('click', () => formatDoc('italic'));
+            underlineBtn.addEventListener('click', () => formatDoc('underline'));
+            alignLeftBtn.addEventListener('click', () => formatDoc('justifyLeft'));
+            alignCenterBtn.addEventListener('click', () => formatDoc('justifyCenter'));
+            alignRightBtn.addEventListener('click', () => formatDoc('justifyRight'));
+            alignJustifyBtn.addEventListener('click', () => formatDoc('justifyFull'));
+            listUlBtn.addEventListener('click', () => formatDoc('insertUnorderedList'));
+            listOlBtn.addEventListener('click', () => formatDoc('insertOrderedList'));
+            outdentBtn.addEventListener('click', () => formatDoc('outdent'));
+            indentBtn.addEventListener('click', () => formatDoc('indent'));
+            linkBtn.addEventListener('click', () => {
+                const url = prompt('Enter the URL:', 'https://');
+                if (url) formatDoc('createLink', url);
+            });
+            imageBtn.addEventListener('click', () => {
+                const url = prompt('Enter the image URL:', 'https://');
+                if (url) formatDoc('insertImage', url);
+            });
+            tableBtn.addEventListener('click', () => {
+                const rows = prompt('Number of rows:', '2');
+                const cols = prompt('Number of columns:', '2');
+                if (rows && cols) {
+                    formatDoc('insertTable', `${rows}x${cols}`);
+                }
+            });
+            undoBtn.addEventListener('click', () => formatDoc('undo'));
+            redoBtn.addEventListener('click', () => formatDoc('redo'));
+            clearBtn.addEventListener('click', () => formatDoc('removeFormat'));
+            
+            headingSelect.addEventListener('change', () => {
+                formatDoc('formatBlock', `<${headingSelect.value}>`);
+            });
+            
+            // Add event listeners to action buttons
+            saveBtn.addEventListener('click', saveDocument);
+            exportPdfBtn.addEventListener('click', () => {
+                showToast("PDF export is not available in this demo");
+            });
+            exportDocBtn.addEventListener('click', () => {
+                showToast("DOC export is not available in this demo");
+            });
+            newDocBtn.addEventListener('click', () => {
+                if (confirm("Are you sure you want to create a new document? Your current content will be lost.")) {
+                    editor.innerHTML = '<p>Start typing your new document here...</p>';
+                    docTitle.value = "Untitled Document";
+                    updateStats();
+                    showToast("New document created");
+                }
+            });
+            
+            // Update stats on input
+            editor.addEventListener('input', updateStats);
+            
+            // Initialize stats
+            updateStats();
+            
+            // Set focus to the editor
+            editor.focus();
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
