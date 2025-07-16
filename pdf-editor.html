@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StyleManntra Digital Free online PDF editor - Edit, annotate, convert and save PDF documents with our powerful web-based tool">
+    <meta name="keywords" content="PDF editor, PDF converter, edit PDF, save PDF, online PDF tool">
+    <meta name="author" content="PDF Editor Pro">
+    <title>PDF Editor Pro | Edit, Convert & Save PDF Documents Online</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        .editor-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 120px);
+        }
+
+        .toolbar {
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tool-group {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.25rem;
+            border-right: 1px solid var(--light-gray);
+            padding-right: 1rem;
+            margin-right: 1rem;
+        }
+
+        .tool-group:last-child {
+            border-right: none;
+            margin-right: 0;
+        }
+
+        .tool-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tool-btn:hover, .tool-btn.active {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .pdf-viewer {
+            flex-grow: 1;
+            overflow: auto;
+            padding: 2rem;
+            background: #f0f3f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pdf-page {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .page-content {
+            min-height: 1000px;
+            padding: 3rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .placeholder-content {
+            margin-bottom: 2rem;
+        }
+
+        .placeholder-content h2 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .placeholder-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .placeholder-content ul {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .placeholder-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .page-footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card h3 i {
+            color: var(--primary);
+        }
+
+        .pages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .page-thumb {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .page-thumb:hover {
+            background: var(--light);
+        }
+
+        .page-thumb.active {
+            background: rgba(67, 97, 238, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .page-thumb .thumb {
+            width: 60px;
+            height: 80px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .save-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .save-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .save-option:hover {
+            background: var(--light);
+        }
+
+        .save-option .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(67, 97, 238, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .save-option .info {
+            flex-grow: 1;
+        }
+
+        .save-option .info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .save-option .info p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Ad Container */
+        .ad-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #d5e3ff 100%);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .ad-container i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .ad-label {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                grid-row: 1;
+                grid-template-columns: 1fr 1fr;
+                display: grid;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .toolbar {
+                justify-content: center;
+            }
+            
+            .pdf-page {
+                padding: 1rem;
+            }
+            
+            .page-content {
+                padding: 1.5rem;
+            }
+            
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-file-pdf"></i>
+                <span>StyleManntra Digital</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="editor-container">
+            <div class="toolbar">
+                <div class="tool-group">
+                    <button class="tool-btn active" title="Select tool"><i class="fas fa-mouse-pointer"></i></button>
+                    <button class="tool-btn" title="Text tool"><i class="fas fa-font"></i></button>
+                    <button class="tool-btn" title="Highlight"><i class="fas fa-highlighter"></i></button>
+                    <button class="tool-btn" title="Draw"><i class="fas fa-pencil-alt"></i></button>
+                    <button class="tool-btn" title="Shapes"><i class="fas fa-shapes"></i></button>
+                </div>
+                
+                <div class="tool-group">
+                    <button class="tool-btn" title="Add image"><i class="fas fa-image"></i></button>
+                    <button class="tool-btn" title="Add signature"><i class="fas fa-signature"></i></button>
+                    <button class="tool-btn" title="Add text field"><i class="fas fa-text-height"></i></button>
+                    <button class="tool-btn" title="Add checkbox"><i class="fas fa-check-square"></i></button>
+                </div>
+                
+                <div class="tool-group">
+                    <button class="tool-btn" title="Undo"><i class="fas fa-undo"></i></button>
+                    <button class="tool-btn" title="Redo"><i class="fas fa-redo"></i></button>
+                </div>
+                
+                <div class="tool-group">
+                    <button class="tool-btn" title="Zoom in"><i class="fas fa-search-plus"></i></button>
+                    <button class="tool-btn" title="Zoom out"><i class="fas fa-search-minus"></i></button>
+                    <button class="tool-btn" title="Fit to width"><i class="fas fa-arrows-alt-h"></i></button>
+                </div>
+                
+                <div class="tool-group">
+                    <button class="btn btn-primary"><i class="fas fa-save"></i> Save PDF</button>
+                    <button class="btn btn-outline"><i class="fas fa-file-export"></i> Export</button>
+                </div>
+            </div>
+            
+            <div class="pdf-viewer">
+                <div class="pdf-page">
+                    <div class="page-content">
+                        <div class="page-header">
+                            <h1>PDF Editor Pro</h1>
+                            <p>Edit this document using the tools above. Add text, images, annotations and more.</p>
+                        </div>
+                        
+                        <div class="placeholder-content">
+                            <h2>About This Document</h2>
+                            <p>This is a sample PDF document that you can edit using our powerful online editor. Simply select any tool from the toolbar above to start editing.</p>
+                            <p>You can add text anywhere on the document by clicking and typing. Use the drawing tools to highlight important sections or add shapes to emphasize content.</p>
+                            
+                            <h2>Key Features</h2>
+                            <ul>
+                                <li>Add and edit text anywhere in the document</li>
+                                <li>Draw shapes, lines and freehand annotations</li>
+                                <li>Highlight important content</li>
+                                <li>Add images and signatures</li>
+                                <li>Fill and sign forms</li>
+                                <li>Export to multiple formats</li>
+                            </ul>
+                            
+                            <h2>Editing Instructions</h2>
+                            <p>To edit this document:</p>
+                            <ol>
+                                <li>Select the Text tool to add or edit text</li>
+                                <li>Use the Highlight tool to mark important sections</li>
+                                <li>Add images using the Image tool</li>
+                                <li>Draw shapes or freehand annotations</li>
+                                <li>When finished, save or export your document</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="page-footer">
+                            Page 1 of 1 | Created with PDF Editor Pro
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="card">
+                <h3><i class="fas fa-copy"></i> Pages</h3>
+                <div class="pages-list">
+                    <div class="page-thumb active">
+                        <div class="thumb">Page 1</div>
+                        <div class="info">
+                            <h4>Document Cover</h4>
+                            <p>Click to edit</p>
+                        </div>
+                    </div>
+                    <div class="page-thumb">
+                        <div class="thumb">Page 2</div>
+                        <div class="info">
+                            <h4>Content Page</h4>
+                            <p>Click to edit</p>
+                        </div>
+                    </div>
+                    <div class="page-thumb">
+                        <div class="thumb">Page 3</div>
+                        <div class="info">
+                            <h4>References</h4>
+                            <p>Click to edit</p>
+                        </div>
+                    </div>
+                    <div class="page-thumb">
+                        <div class="thumb">+</div>
+                        <div class="info">
+                            <h4>Add New Page</h4>
+                            <p>Create blank page</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-download"></i> Save & Export</h3>
+                <div class="save-options">
+                    <div class="save-option">
+                        <div class="icon"><i class="fas fa-file-pdf"></i></div>
+                        <div class="info">
+                            <h4>Save as PDF</h4>
+                            <p>High quality document</p>
+                        </div>
+                    </div>
+                    <div class="save-option">
+                        <div class="icon"><i class="fas fa-file-word"></i></div>
+                        <div class="info">
+                            <h4>Export to Word</h4>
+                            <p>Editable .docx format</p>
+                        </div>
+                    </div>
+                    <div class="save-option">
+                        <div class="icon"><i class="fas fa-file-image"></i></div>
+                        <div class="info">
+                            <h4>Export as Image</h4>
+                            <p>PNG or JPG format</p>
+                        </div>
+                    </div>
+                    <div class="save-option">
+                        <div class="icon"><i class="fas fa-print"></i></div>
+                        <div class="info">
+                            <h4>Print Document</h4>
+                            <p>Send directly to printer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ad-container">
+                <div class="ad-label">ADVERTISEMENT</div>
+                <i class="fas fa-ad"></i>
+                <h3>Ad Space Available</h3>
+                <p>Google AdSense Integration</p>
+                <!-- Google AdSense code would go here -->
+                <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_AD_CLIENT_ID" crossorigin="anonymous"></script> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>PDF Editor Pro</h4>
+                <p>A powerful online PDF editor that lets you edit, convert, and sign PDF documents directly in your browser.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Features</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-check-circle"></i> Edit PDF Files</a></li>
+                    <li><a href="#"><i class="fas fa-check-circle"></i> Convert to PDF</a></li>
+                    <li><a href="#"><i class="fas fa-check-circle"></i> Merge & Split</a></li>
+                    <li><a href="#"><i class="fas fa-check-circle"></i> E-Sign Documents</a></li>
+                    <li><a href="#"><i class="fas fa-check-circle"></i> Compress PDF</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
+                    <li><a href="#"><i class="fas fa-video"></i> Tutorials</a></li>
+                    <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Support</a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> API</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-gavel"></i> Terms of Service</a></li>
+                    <li><a href="#"><i class="fas fa-lock"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-cookie"></i> Cookie Policy</a></li>
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> Security</a></li>
+                    <li><a href="#"><i class="fas fa-copyright"></i> Copyright</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 StyleManntra Digital. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Tool selection functionality
+        const toolButtons = document.querySelectorAll('.tool-btn');
+        toolButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                toolButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Show tooltip for the selected tool
+                const toolName = button.getAttribute('title');
+                if (toolName) {
+                    alert(`Selected tool: ${toolName}`);
+                }
+            });
+        });
+        
+        // Page selection functionality
+        const pageThumbs = document.querySelectorAll('.page-thumb');
+        pageThumbs.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                // Remove active class from all thumbs
+                pageThumbs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked thumb
+                thumb.classList.add('active');
+                
+                // Simulate page navigation
+                const pageNum = thumb.querySelector('.thumb').textContent;
+                if (pageNum === '+') {
+                    alert('Adding a new page...');
+                } else {
+                    alert(`Navigating to ${pageNum}`);
+                }
+            });
+        });
+        
+        // Save options functionality
+        const saveOptions = document.querySelectorAll('.save-option');
+        saveOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const format = option.querySelector('h4').textContent;
+                alert(`Preparing to save as: ${format}`);
+            });
+        });
+        
+        // Save button functionality
+        document.querySelector('.btn-primary').addEventListener('click', () => {
+            alert('PDF saved successfully!');
+        });
+    </script>
+</body>
+</html>
