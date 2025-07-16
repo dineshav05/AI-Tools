@@ -406,64 +406,28 @@
 
         /* Footer */
         footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
+            text-align: center;
+            padding: 3rem 1.5rem 1.5rem;
+            color: #666;
+            margin-top: 3rem;
         }
 
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+        .footer-links {
+            display: flex;
+            justify-content: center;
             gap: 2rem;
-        }
-
-        .footer-col h4 {
             margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-            position: relative;
-            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .footer-col h4::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 3px;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-col ul li a {
-            color: #adb5bd;
+        .footer-links a {
+            color: var(--primary);
             text-decoration: none;
             transition: var(--transition);
         }
 
-        .footer-col ul li a:hover {
-            color: white;
-            padding-left: 5px;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid #495057;
-            color: #adb5bd;
-            font-size: 0.9rem;
+        .footer-links a:hover {
+            color: var(--secondary);
         }
 
         /* Responsive Design */
